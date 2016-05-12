@@ -22,39 +22,43 @@ import ar.com.gep.websocket.service.CommentService;
  *
  */
 @Controller
-@RequestMapping("/comment")
+@RequestMapping(CommentController.COMMENT_URL)
 public class CommentController {
+
+  private static final String EMPTY = "";
+  private static final String ID = "/{id}";
+  private static final String COMMENT = "comment";
+  public static final String COMMENT_URL = "/comment";
 
   @Autowired
   CommentService service;
 
-  @RequestMapping(value = "", method = RequestMethod.GET)
+  @RequestMapping(value = EMPTY, method = RequestMethod.GET)
   public @ResponseBody List<CommentDTO> getAll() {
     return service.getAll();
   };
 
-  @NotifyClient(topic = "comment")
-  @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+  @NotifyClient(topic = COMMENT, action = "update")
+  @RequestMapping(value = ID, method = RequestMethod.PUT)
   public @ResponseBody CommentDTO update(@PathVariable Integer id, @RequestBody CommentDTO dto) {
     dto.setId(id);
     return service.update(dto);
   }
 
-  @NotifyClient(topic = "comment")
-  @RequestMapping(value = "", method = RequestMethod.POST)
+  @NotifyClient(topic = COMMENT, action = "save")
+  @RequestMapping(value = EMPTY, method = RequestMethod.POST)
   public @ResponseBody CommentDTO save(@RequestBody CommentDTO dto) {
     return service.save(dto);
   }
 
-  @NotifyClient(topic = "comment")
-  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+  @NotifyClient(topic = COMMENT, action = "delete")
+  @RequestMapping(value = ID, method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable Integer id) {
     service.delete(id);
   }
 
-  @NotifyClient(topic = "comment")
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = ID, method = RequestMethod.GET)
   public @ResponseBody CommentDTO get(@PathVariable final Integer id) {
     return service.getOne(id);
   }

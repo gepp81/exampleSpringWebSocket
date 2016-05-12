@@ -17,15 +17,37 @@ import ar.com.gep.websocket.annotation.NotifyClient;
 @Aspect
 public class NotifyAspect {
 
+  private class MessageDTO {
+    private Date date;
+    private String action;
+
+    public MessageDTO(String action) {
+      this.date = new Date();
+      this.action = action;
+    }
+
+    public Date getDate() {
+      return date;
+    }
+
+    public String getAction() {
+      return action;
+    }
+
+    public void setAction(String action) {
+      this.action = action;
+    }
+  }
+
   @Autowired
   private SimpMessagingTemplate template;
 
   private static final String WEBSOCKET = "/topic/";
 
   @After("@annotation(notifyClient)")
-  public void notifyClient(NotifyClient notifyClient) throws Throwable {
+  public void notifyClient(final NotifyClient notifyClient) throws Throwable {
     if (notifyClient.topic() != null) {
-      template.convertAndSend(WEBSOCKET, new Date());
+      template.convertAndSend(WEBSOCKET.concat(notifyClient.topic()), new MessageDTO(notifyClient.action()));
     }
   }
 

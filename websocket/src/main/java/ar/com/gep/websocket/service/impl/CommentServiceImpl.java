@@ -39,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  public Boolean exists(final CommentDTO dto) {
+    return repository.findByTitle(dto.getTitle()).size() > 0;
+  }
+
+  @Override
   @Transactional
   public CommentDTO save(CommentDTO dto) {
     dto.setDate(Calendar.getInstance().getTime());

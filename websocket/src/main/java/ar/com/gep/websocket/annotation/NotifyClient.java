@@ -11,4 +11,6 @@ public @interface NotifyClient {
 
   String topic();
 
+  String action();
+
 }

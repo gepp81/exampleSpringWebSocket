@@ -18,6 +18,8 @@ public interface CommentService {
   @Transactional
   CommentDTO save(CommentDTO dto);
 
+  Boolean exists(final CommentDTO dto);
+
   @Transactional
   CommentDTO update(CommentDTO dto);
 

@@ -1,4 +1,4 @@
-function CommentController($scope, CommentService) {
+function CommentController($scope, dateFilter, CommentService) {
 
     $scope.comments = CommentService.query();
     $scope.newComment = {
@@ -6,17 +6,54 @@ function CommentController($scope, CommentService) {
         description: null
     };
 
+    $scope.alerts = [];
+
+    $scope.addAlert = function(message) {
+        var date = dateFilter(message.date, 'HH:mm');
+        var type;
+        var msg;
+        switch (message.action) {
+            case 'save':
+                type = "success";
+                msg = "Se agrego un comentario ";
+                break;
+            case 'update':
+                type = "info";
+                msg = "Se actualizo un comentario ";
+                break;
+            case 'delete':
+                type = "danger"
+                msg = "Se elimino un comentario ";
+                break;
+        }
+        var msg = {
+            type: type,
+            msg: msg + date
+        };
+        $scope.alerts.push(msg);
+    }
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    }
+
     $scope.save = function(newComment) {
+        $scope.initiator = true;
         var service = new CommentService();
         service.title = newComment.title;
         service.comment = newComment.comment;
         service.$save(function(response) {
             $scope.comments.push(response);
         });
+        $scope.newComment = {
+            title: null,
+            description: null
+        };
     }
 
     $scope.delete = function(comment, index) {
-        comment.$remove(function(response){
+        $scope.initiator = true;
+        comment.$remove(function(response) {
             $scope.comments.splice(index, 1);
         });
     }
@@ -27,6 +64,31 @@ function CommentController($scope, CommentService) {
         client: null,
         stomp: null
     };
+
+    $scope.notify = function(message) {
+        if (!$scope.initiator) {
+            CommentService.query(function(comments) {
+                $scope.comments = comments;
+                $scope.addAlert(JSON.parse(message.body));
+            });
+        }
+        $scope.initiator = false;
+    };
+
+    $scope.reconnect = function() {
+        setTimeout($scope.initSockets, 10000);
+    };
+
+    $scope.initSockets = function() {
+        $scope.socket.client = new SockJS('/websocket/notify');
+        $scope.socket.stomp = Stomp.over($scope.socket.client);
+        $scope.socket.stomp.connect({}, function() {
+            $scope.socket.stomp.subscribe("/topic/comment", $scope.notify);
+        });
+        $scope.socket.client.onclose = $scope.reconnect;
+    };
+
+    $scope.initSockets();
 
 
 }
