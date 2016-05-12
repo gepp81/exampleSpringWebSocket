@@ -47,6 +47,7 @@ public class CommentServiceImpl implements CommentService {
   @Transactional
   public CommentDTO save(CommentDTO dto) {
     dto.setDate(Calendar.getInstance().getTime());
+    dto.setVotes(0);
     Comment entity = mapper.map(dto, Comment.class);
     mapper.map(repository.saveAndFlush(entity), dto);
     return dto;
@@ -59,6 +60,7 @@ public class CommentServiceImpl implements CommentService {
     entity.setComment(dto.getComment());
     entity.setTitle(dto.getTitle());
     entity.setDate(Calendar.getInstance().getTime());
+    entity.setVotes(dto.getVotes());
     mapper.map(repository.saveAndFlush(entity), dto);
     return dto;
   }

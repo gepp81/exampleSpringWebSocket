@@ -26,6 +26,7 @@
                             <th>T&iacute;tulo</th>
                             <th>Comentario</th>
                             <th>&Uacute;ltima Modificaci&oacute;n</th>
+                            <th>Votos</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -34,9 +35,11 @@
                             <td>{{comment.title}}</td>
                             <td>{{comment.comment}}</td>
                             <td>{{comment.date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                            <td>{{comment.votes}}</td>
                             <td>
-                                <button class="btn btn-info" ng-click="update(comment, $index)">Actualizar</button>
-                                <button class="btn btn-danger" ng-click="delete(comment, $index)">Eliminar</button>
+                                <button class="btn btn-warning btn-sm" ng-click="vote(comment, $index, 1)">+1</button>
+                                <button class="btn btn-warning btn-sm" ng-click="vote(comment, $index, -1)">-1</button>
+                                <button class="btn btn-danger btn-sm" ng-click="delete(comment, $index)">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>

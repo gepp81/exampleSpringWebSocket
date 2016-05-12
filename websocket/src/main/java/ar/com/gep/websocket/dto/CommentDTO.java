@@ -17,6 +17,8 @@ public class CommentDTO {
 
   private Date date;
 
+  private Integer votes;
+
   public Integer getId() {
     return id;
   }
@@ -47,6 +49,14 @@ public class CommentDTO {
 
   public void setDate(Date date) {
     this.date = date;
+  }
+
+  public Integer getVotes() {
+    return votes;
+  }
+
+  public void setVotes(Integer votes) {
+    this.votes = votes;
   }
 
 }

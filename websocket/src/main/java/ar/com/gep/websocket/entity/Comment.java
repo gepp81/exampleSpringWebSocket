@@ -32,6 +32,9 @@ public class Comment implements Serializable {
   @Column
   private Date date;
 
+  @Column
+  private Integer votes;
+
   public Integer getId() {
     return id;
   }
@@ -62,6 +65,14 @@ public class Comment implements Serializable {
 
   public void setDate(Date date) {
     this.date = date;
+  }
+
+  public Integer getVotes() {
+    return votes;
+  }
+
+  public void setVotes(Integer votes) {
+    this.votes = votes;
   }
 
 }

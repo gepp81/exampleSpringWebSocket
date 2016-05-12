@@ -14,11 +14,11 @@ function CommentController($scope, dateFilter, CommentService) {
         var msg;
         switch (message.action) {
             case 'save':
-                type = "success";
+                type = "info";
                 msg = "Se agrego un comentario ";
                 break;
             case 'update':
-                type = "info";
+                type = "warning";
                 msg = "Se actualizo un comentario ";
                 break;
             case 'delete':
@@ -49,6 +49,17 @@ function CommentController($scope, dateFilter, CommentService) {
             title: null,
             description: null
         };
+    }
+
+    $scope.vote = function(comment, index, vote) {
+        $scope.initiator = true;
+        comment.votes = comment.votes + vote;
+        if (comment.votes < 0) {
+            comment.votes = 0;
+        }
+        comment.$update(function(response) {
+            $scope.comments[index] = response;
+        });
     }
 
     $scope.delete = function(comment, index) {

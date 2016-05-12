@@ -26,14 +26,17 @@ public class NotifyAspect {
       this.action = action;
     }
 
+    @SuppressWarnings("unused")
     public Date getDate() {
       return date;
     }
 
+    @SuppressWarnings("unused")
     public String getAction() {
       return action;
     }
 
+    @SuppressWarnings("unused")
     public void setAction(String action) {
       this.action = action;
     }
