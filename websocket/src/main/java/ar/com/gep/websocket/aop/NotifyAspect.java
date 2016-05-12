@@ -2,15 +2,18 @@ package ar.com.gep.websocket.aop;
 
 import java.util.Date;
 
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import ar.com.gep.websocket.annotation.NotifyClient;
 
+/**
+ * 
+ * @author Guillermo Pi Dote
+ *
+ */
 @Aspect
 public class NotifyAspect {
 
@@ -25,5 +28,5 @@ public class NotifyAspect {
       template.convertAndSend(WEBSOCKET, new Date());
     }
   }
-  
+
 }

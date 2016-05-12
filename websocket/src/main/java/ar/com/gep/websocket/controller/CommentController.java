@@ -28,7 +28,7 @@ public class CommentController {
   @Autowired
   CommentService service;
 
-  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @RequestMapping(value = "", method = RequestMethod.GET)
   public @ResponseBody List<CommentDTO> getAll() {
     return service.getAll();
   };
@@ -41,7 +41,7 @@ public class CommentController {
   }
 
   @NotifyClient(topic = "comment")
-  @RequestMapping(value = "/", method = RequestMethod.POST)
+  @RequestMapping(value = "", method = RequestMethod.POST)
   public @ResponseBody CommentDTO save(@RequestBody CommentDTO dto) {
     return service.save(dto);
   }
