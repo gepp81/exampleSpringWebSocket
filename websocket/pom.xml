@@ -118,7 +118,7 @@
 					<version>2.4</version>
 					<configuration>
 						<warSourceDirectory>src/main/webapp</warSourceDirectory>
-						<warName>mdqmaps</warName>
+						<warName>websocket</warName>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 						<source>1.8</source>
 						<target>1.8</target>
@@ -137,6 +137,6 @@
 			</plugins>
 
 		</pluginManagement>
-		<finalName>MDQMaps</finalName>
+		<finalName>websocket</finalName>
 	</build>
 </project>
