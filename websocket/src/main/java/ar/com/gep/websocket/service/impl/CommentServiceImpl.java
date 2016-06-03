@@ -17,7 +17,6 @@ import ar.com.gep.websocket.service.CommentService;
 /**
  * 
  * @author Guillermo Pi Dote
- *
  */
 @Service
 public class CommentServiceImpl implements CommentService {

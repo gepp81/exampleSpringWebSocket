@@ -93,7 +93,11 @@ function CommentController($scope, dateFilter, CommentService) {
     $scope.initSockets = function() {
         $scope.socket.client = new SockJS('/websocket/notify');
         $scope.socket.stomp = Stomp.over($scope.socket.client);
-        $scope.socket.stomp.connect({}, function() {
+        var headers = {
+        		Authorization:
+        			"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE0NjQ5NzQwNzYxNTUsImV4cCI6MTQ2NTU3ODg3Nn0.Hs5SDkGIio3rIPJOReTNNkyOdM-LOWSx9j3_lD-783LFa37njbEPwf1485776riDNT_ii0paEfk_Nm5oikQ25g",
+        	    };        
+        $scope.socket.stomp.connect(headers, function() {
             $scope.socket.stomp.subscribe("/topic/comment", $scope.notify);
         });
         $scope.socket.client.onclose = $scope.reconnect;

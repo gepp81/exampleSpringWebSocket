@@ -10,9 +10,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -34,11 +35,22 @@ import ar.com.gep.websocket.entity.Comment;
 @EnableJpaRepositories(basePackages = { "ar.com.gep.websocket.repository" })
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
+@PropertySource("classpath:application.properties")
 public class AppConfiguration {
 
   @Bean
+  public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    return new PropertySourcesPlaceholderConfigurer();
+  }
+
+  @Bean
   public DataSource dataSource() {
-    return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).build();
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("org.postgresql.Driver");
+    dataSource.setUrl("jdbc:postgresql://127.0.0.1/prueba");
+    dataSource.setUsername("postgres");
+    dataSource.setPassword("postgres");
+    return dataSource;
   }
 
   @Bean
@@ -46,7 +58,7 @@ public class AppConfiguration {
     HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
     adapter.setShowSql(true);
     adapter.setGenerateDdl(true);
-    adapter.setDatabase(Database.HSQL);
+    adapter.setDatabase(Database.POSTGRESQL);
     return adapter;
   }
 
